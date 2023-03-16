@@ -77,7 +77,7 @@ const keyList = ref([
 
 const handleLogin = () => {
     router.push({
-        name: "adminProject"
+        name: "AdminProject"
     })
 
 }
@@ -85,7 +85,7 @@ const handleLogin = () => {
 
 const adminBinding = () => {
     router.push({
-        name: "binding"
+        name: "Binding"
     })
 }
 

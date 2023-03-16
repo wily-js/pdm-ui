@@ -82,7 +82,7 @@ const handleBinding = () => {
         return
     }
     router.push({
-        name: "adminLogin"
+        name: "AdminLogin"
     })
 }
 const driver = ref(false)

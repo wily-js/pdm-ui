@@ -54,7 +54,7 @@ const pErr = reactive({
 
 const handleLogin = () => {
     router.push({
-        name: "userProject"
+        name: "ProjectList"
     })
 }
 

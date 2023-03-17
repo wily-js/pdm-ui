@@ -3,10 +3,32 @@ import createPersistedState from 'vuex-persistedstate'
 
 export default createStore({
     state: {
+        userInfo: { // 登录的用户信息
+            id: "",
+            name: "",
+            type: "",
+            imgSrc: ""
+        },
+        projectId: "", // 项目ID
     },
     mutations: {
+        saveUserInfo(state, userInfo) {
+            state.userInfo = userInfo;
+        },
+        saveImgSrc(state, imgSrc) {
+            state.userInfo.imgSrc = imgSrc
+        },
+        saveProjectId(state, id) {
+            state.projectId = id;
+        },
     },
     getters: {
+        getUserInfo(state) {
+            return state.userInfo
+        },
+        getProjectId(state) {
+            return state.projectId
+        },
     },
     plugins: [
         createPersistedState({

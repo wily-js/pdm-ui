@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <div class="container" v-loading="loadding" element-loading-background="rgba(255, 255, 255, 0.8)"
+        <div class="container" v-loading="loading" element-loading-background="rgba(255, 255, 255, 0.8)"
             element-loading-text="数据加载中...">
             <div style="margin: 50px 15px">
                 <h1 style="font-size: 40px; text-align: center;">项目对接管理系统</h1>
@@ -40,7 +40,7 @@ import { useRouter } from 'vue-router';
 import GInput from "../../components/GInput.vue";
 import { useStore } from "vuex";
 
-const loadding = ref(false)
+const loading = ref(false)
 const username = ref('');
 const password = ref('');
 const router = useRouter();
@@ -53,12 +53,43 @@ const pErr = reactive({
 
 
 const handleLogin = () => {
-    router.push({
-        name: "ProjectList"
+    if (username.value == '') {
+        ElMessage.error("账户信息为空");
+        return
+    }
+    if (password.value == '') {
+        ElMessage.error("登录口令为空");
+        return
+    }
+
+    loading.value = true
+    axios.post("/api/login", {
+        username: username.value,
+        password: password.value
+    }).then((resp) => {
+        if (resp.data.type == "user") {
+            router.push({
+                name: "ProjectList"
+            })
+        } else if (resp.data.type === "admin") {
+            router.push({
+                name: "AdminProject"
+            })
+        }
+        store.commit("saveUserInfo", resp.data)
+    }).catch((err) => {
+        if (err.response.status == 500) {
+            ElMessage.error({ message: "网络无法连接", duration: 2000, showClose: true });
+        } else {
+            ElMessage.error({ message: err.response.data, duration: 2000, showClose: true });
+        }
+    }).finally(() => {
+        loading.value = false
     })
 }
 
 const handleSsoLogin = () => {
+
 }
 
 const handleUsernameBlur = (v) => {

@@ -76,6 +76,7 @@ const handleLogin = () => {
                 name: "AdminProject"
             })
         }
+        resp.data.imgSrc = "/api/avatar?type=user&id=" + resp.data.id
         store.commit("saveUserInfo", resp.data)
     }).catch((err) => {
         if (err.response.status == 500) {
@@ -109,7 +110,18 @@ const handlePasswordBlur = (v) => {
 }
 
 onMounted(() => {
+    axios.get("/api/check").then((resp) => {
+        if (resp.data.type == "user") {
+            router.push({
+                name: "ProjectList"
+            })
 
+            resp.data.imgSrc = "/api/avatar?type=user&id=" + resp.data.id
+            store.commit("saveUserInfo", resp.data)
+        }
+    }).catch(() => {
+
+    })
 })
 
 </script>

@@ -10,11 +10,13 @@
             <el-menu-item index="/index/technicalProposal">技术方案</el-menu-item>
             <div class="i-avatar" @click="skipUser">
                 <div style="width:40px;height: 40px; border-radius: 25px; overflow: hidden;">
-                    <!-- <img v-if="userInfo.avatar" :src="userInfo.avatar" style="width:100%;height: 100%;"> -->
-                    <!-- <el-avatar v-else :src="icon" /> -->
-                    <el-avatar :src="icon" />
+                    <el-image :src="userInfo.imgSrc" style="width:40px;height: 40px;">
+                        <template #error>
+                            <el-avatar :src="icon" />
+                        </template>
+                    </el-image>
                 </div>
-                <el-button link class="i-name">zs</el-button>
+                <el-button link class="i-name">{{ userInfo.name }}</el-button>
             </div>
             <el-link type="info" style=" margin-top: 8px;margin-right: 10px;" @click="logout">退出登录</el-link>
         </el-menu>
@@ -33,14 +35,18 @@ const router = useRouter()
 const store = useStore()
 const r = useRoute()
 
-
+// 用户信息
+const userInfo = ref({})
 
 // 退出登录
 const logout = () => {
-    router.push({
-        path: "/"
+    axios.delete("/api/logout").then(() => {
+        router.push({
+            path: "/"
+        })
+    }).catch((err) => {
+        ElMessage.error({ message: err.response.data, duration: 2000, showClose: true });
     })
-
 }
 
 const skipUser = () => {
@@ -58,15 +64,29 @@ document.addEventListener('dragover', function (e) {
     e.preventDefault()
 }, false)
 
+// 系统版本号
 const version = ref('')
-const activeIndex = ref("")
-onMounted(() => {
-    activeIndex.value = r.fullPath
+const getVersion = () => {
     axios.get("/api/system/version").then((resp) => {
         version.value = resp.data
     }).catch((err) => {
         ElMessage.error({ message: err.response.data, duration: 2000, showClose: true });
     })
+}
+const checkToken = () => {
+    axios.get("/api/check").then((resp) => {
+        resp.data.imgSrc = "/api/avatar?type=user&id=" + resp.data.id
+        store.commit("saveUserInfo", resp.data)
+        userInfo.value = resp.data
+    }).catch(() => {
+
+    })
+}
+const activeIndex = ref("")
+onMounted(() => {
+    activeIndex.value = r.fullPath
+    getVersion()
+    checkToken()
 })
 
 

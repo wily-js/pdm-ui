@@ -5,11 +5,11 @@
             <el-form-item label="工号" prop="openid" style="width: 80%;">
                 <el-input v-model="form.openid"></el-input>
             </el-form-item>
-            <el-form-item label="用户名" prop="username" style="width: 80%;">
-                <el-input v-model="form.username"></el-input>
-            </el-form-item>
             <el-form-item label="姓名" prop="name" style="width: 80%;">
                 <el-input v-model="form.name"></el-input>
+            </el-form-item>
+            <el-form-item label="用户名" prop="username" style="width: 80%;">
+                <el-input v-model="form.username"></el-input>
             </el-form-item>
             <el-form-item label="手机号" prop="phone" style="width: 80%;">
                 <el-input v-model="form.phone"></el-input>
@@ -19,12 +19,6 @@
             </el-form-item>
             <el-form-item label="身份证号" prop="sn" style="width: 80%;">
                 <el-input v-model="form.sn"></el-input>
-            </el-form-item>
-            <el-form-item label="口令" prop="password" style="width: 80%;">
-                <el-input v-model="form.password" type="password" show-password></el-input>
-            </el-form-item>
-            <el-form-item label="确认口令" prop="passwordAgain" style="width: 80%;">
-                <el-input v-model="form.passwordAgain" type="password" show-password></el-input>
             </el-form-item>
         </el-form>
         <template #footer>
@@ -59,25 +53,13 @@ const rules = ref({
             trigger: 'change'
         },
     ],
-    password: [
+    name: [
         {
             required: true,
-            message: '请填写口令',
+            message: '请填写姓名',
             trigger: 'change'
-        },
-        {
-            min: 8,
-            message: '口令长度至少8位',
-            trigger: 'blur'
         },
     ],
-    passwordAgain: [
-        {
-            required: true,
-            message: '请确认填写口令',
-            trigger: 'change'
-        },
-    ]
 })
 
 // 创建用户表单
@@ -88,8 +70,6 @@ const form = reactive({
     phone: "",
     email: "",
     sn: "",
-    password: "",
-    passwordAgain: ""
 })
 
 // 取消
@@ -100,8 +80,6 @@ const cancel = () => {
     form.phone = ""
     form.email = ""
     form.sn = ""
-    form.password = ""
-    form.passwordAgain = ""
     ruleForm.value.resetFields()
     emit("update:modelValue", false);
 }
@@ -112,10 +90,6 @@ const userCreate = () => {
     ruleForm.value.validate((valid) => {
         //表单校验成功
         if (valid) {
-            if (form.password !== form.passwordAgain) {
-                ElMessage.error({ message: "两次输入的新口令不一致，请重新输入", duration: 2000, showClose: true });
-                return
-            }
             if (!form) return
             axios.post("/api/user/create", form).then(() => {
                 emit("update:modelValue", false);
@@ -127,8 +101,6 @@ const userCreate = () => {
                 form.phone = ""
                 form.email = ""
                 form.sn = ""
-                form.password = ""
-                form.passwordAgain = ""
                 ruleForm.value.resetFields()
             }).catch((err) => {
                 ElMessage.error({ message: err.response.data, duration: 2000, showClose: true });

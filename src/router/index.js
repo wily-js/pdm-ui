@@ -58,11 +58,21 @@ const routes = [
                 ]
             },
             {
-                path: 'dockingDocuments/:id',
+                path: 'dockingDocuments',
                 name: 'DockingDocuments',
                 props: true,
                 component: () => import('../views/user/project/dockingDocuments/DockingDocuments.vue'),
-            }
+            },
+            {
+                path: 'member',
+                name: 'Member',
+                component: () => import('../views/user/project/member/Member.vue'),
+            },
+            {
+                path: 'userInfo',
+                name: 'UserInfoCopy',
+                component: () => import('../views/user/userInfo/UserInfo.vue')
+            },
         ]
     },
     {

@@ -42,7 +42,7 @@
     </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import { useRouter, } from 'vue-router'
 import { useStore } from "vuex";
@@ -60,14 +60,12 @@ const pagination = ref({
     name: "",
     description: ""
 })
-const typeValue = ref('')
 const handleCurrentChange = (currentPage) => {
     //修改页码值为选中页码值
     pagination.value.currentPage = currentPage;
     //执行查询
     getProject();
 }
-
 const handleSizeChange = (val) => {
     pagination.value.pageSize = val
     pagination.value.currentPage = 1
@@ -99,15 +97,13 @@ const getProject = () => {
         pagination.value.pageSize = resp.data.size
         pagination.value.total = resp.data.total
         tableData.value = resp.data.records
-        // console.log(tableData.value)
-        loading.value = false
     }).catch((err) => {
-        loading.value = false
         ElMessage.error({ message: err.response.data, duration: 2000, showClose: true })
+    }).finally(() => {
+        loading.value = false
     })
 
 }
-getProject()
 
 
 const create = () => {
@@ -115,7 +111,6 @@ const create = () => {
         name: "UserCreateProject"
     });
 }
-
 
 const enterProject = (name, projectId, managerId) => {
     loading.value = true
@@ -127,15 +122,19 @@ const enterProject = (name, projectId, managerId) => {
         store.commit("saveProjectId", projectId)
         store.commit("saveManagerId", managerId)
         store.commit("saveRole", resp.data.role)
-        // console.log(resp.data.role)
         router.push({
-            name: "schedule"
+            name: "DockingDocuments"
         });
     }).catch((err) => {
-        loading.value = false
         ElMessage.error({ message: err.response.data, duration: 2000, showClose: true })
+    }).finally(() => {
+        loading.value = false
     })
 }
+
+onMounted(() => {
+    getProject()
+})
 
 </script>
 

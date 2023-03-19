@@ -5,11 +5,11 @@
             <el-form-item label="工号" prop="openid" style="width: 80%;">
                 <el-input v-model="userInfo.openid"></el-input>
             </el-form-item>
-            <el-form-item label="用户名" prop="username" style="width: 80%;">
-                <el-input v-model="userInfo.username"></el-input>
-            </el-form-item>
             <el-form-item label="姓名" prop="name" style="width: 80%;">
                 <el-input v-model="userInfo.name"></el-input>
+            </el-form-item>
+            <el-form-item label="用户名" prop="username" style="width: 80%;">
+                <el-input v-model="userInfo.username"></el-input>
             </el-form-item>
             <el-form-item label="手机号" prop="phone" style="width: 80%;">
                 <el-input v-model="userInfo.phone"></el-input>
@@ -60,6 +60,13 @@ const rules = ref({
         {
             required: true,
             message: '请填写工号',
+            trigger: 'change'
+        },
+    ],
+    name: [
+        {
+            required: true,
+            message: '请填写姓名',
             trigger: 'change'
         },
     ],

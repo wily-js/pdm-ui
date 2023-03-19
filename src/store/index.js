@@ -5,11 +5,15 @@ export default createStore({
     state: {
         userInfo: { // 登录的用户信息
             id: "",
+            openid: "",
             name: "",
             type: "",
             imgSrc: ""
         },
         projectId: "", // 项目ID
+        projectName: "", // 项目名称
+        managerId: "", //承接人ID
+        role: "", // 用户在项目中的角色
     },
     mutations: {
         saveUserInfo(state, userInfo) {
@@ -21,6 +25,15 @@ export default createStore({
         saveProjectId(state, id) {
             state.projectId = id;
         },
+        saveProjectName(state, name) {
+            state.projectName = name;
+        },
+        saveManagerId(state, id) {
+            state.managerId = id;
+        },
+        saveRole(state, role) {
+            state.role = role
+        },
     },
     getters: {
         getUserInfo(state) {
@@ -28,6 +41,15 @@ export default createStore({
         },
         getProjectId(state) {
             return state.projectId
+        },
+        getProjectName(state) {
+            return state.projectName
+        },
+        getManagerId(state) {
+            return state.managerId
+        },
+        getRole(state) {
+            return state.role
         },
     },
     plugins: [

@@ -16,7 +16,8 @@
                         </template>
                     </el-image>
                 </div>
-                <el-button link class="i-name">{{ userInfo.name }}</el-button>
+                <el-button v-if="userInfo.name" link class="i-name">{{ userInfo.name }}</el-button>
+                <el-button v-else link class="i-name">{{ userInfo.openid }}</el-button>
             </div>
             <el-link type="info" style=" margin-top: 8px;margin-right: 10px;" @click="logout">退出登录</el-link>
         </el-menu>

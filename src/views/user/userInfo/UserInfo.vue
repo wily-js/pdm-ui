@@ -2,8 +2,11 @@
     <div class="user-body" v-loading="loading" element-loading-background="rgba(255, 255, 255, 0.8)"
         element-loading-text="数据加载中...">
         <el-form ref="ruleForm" :model="form" :rules="rules" label-width="120px" class="user-form">
-            <el-form-item label="姓名" prop="name">
+            <el-form-item v-if="form.name" label="姓名" prop="name">
                 <div class="user-name">{{ form.name }}</div>
+            </el-form-item>
+            <el-form-item v-else label="工号" prop="name">
+                <div class="user-name">{{ form.openid }}</div>
             </el-form-item>
             <el-form-item label="头像">
                 <el-upload class="avatar-uploader" :auto-upload="false" :on-change="changeUpload" :show-file-list=false>
@@ -65,6 +68,7 @@ const ruleForm = ref()
 // 表单信息
 const form = reactive({
     id: store.getters.getUserInfo.id,
+    openid: store.getters.getUserInfo.openid,
     name: store.getters.getUserInfo.name,
     oldPassword: '',
     newPassword: '',

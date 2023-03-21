@@ -2,11 +2,12 @@
     <div class="pj-top">
         <el-menu class="pj-menu" mode="horizontal" router :default-active="activeIndex">
             <el-button link class="pj-title" style="font-size:24px;" @click="back">
-                <img src="../../../../../public/pdm.svg" style="width: 25px; height : 25px ;padding-right:10px">
+                <img src="../../../../../public/pdm.svg"
+                    style="width: 25px; height : 25px ;padding-right:10px;margin-left: 10px;">
                 <div style="padding-right: 10px;">{{ name }}</div>
             </el-button>
             <el-menu-item index="/project/dockingDocuments">对接文档</el-menu-item>
-            <el-menu-item index="/project/interfaceDirectory">接口目录</el-menu-item>
+            <el-menu-item index="/project/apiManagement">接口管理</el-menu-item>
             <el-menu-item index="/project/member">授权成员</el-menu-item>
             <div class="pj-btn">
                 <!-- <el-button type="primary" @click="back" class="pj-item">用户主页</el-button> -->

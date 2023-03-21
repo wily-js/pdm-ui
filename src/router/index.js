@@ -50,9 +50,9 @@ const routes = [
         component: () => import('../views/user/project/project/Project.vue'),
         children: [
             {
-                path: 'interfaceDirectory',
-                name: 'InterfaceDirectory',
-                component: () => import('../views/user/project/interfaceDirectory/InterfaceDirectory.vue'),
+                path: 'apiManagement',
+                name: 'ApiManagement',
+                component: () => import('../views/user/project/ApiManagement/ApiListView.vue'),
                 children: [
 
                 ]
@@ -62,6 +62,12 @@ const routes = [
                 name: 'DockingDocuments',
                 props: true,
                 component: () => import('../views/user/project/dockingDocuments/DockingDocuments.vue'),
+            },
+            {
+                path: 'dockingContent/:id',
+                name: 'DockingContent',
+                props: true,
+                component: () => import('../views/user/project/dockingDocuments/DockingContent.vue'),
             },
             {
                 path: 'member',

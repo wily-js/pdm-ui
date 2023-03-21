@@ -39,7 +39,7 @@ const ruleForm = ref()
 const form = ref({
     name: '',
     description: '',
-    manager: '',
+    manager: store.getters.getUserInfo.id,
     version: '',
 })
 

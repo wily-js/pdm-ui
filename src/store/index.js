@@ -1,3 +1,4 @@
+import { ref } from 'vue';
 import { createStore } from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
@@ -14,6 +15,8 @@ export default createStore({
         projectName: "", // 项目名称
         managerId: "", //承接人ID
         role: "", // 用户在项目中的角色
+        caseId: "", // 接口用例ID
+        caseInfo: {},
     },
     mutations: {
         saveUserInfo(state, userInfo) {
@@ -34,6 +37,15 @@ export default createStore({
         saveRole(state, role) {
             state.role = role
         },
+        saveCaseId(state, caseId) {
+            state.caseId = caseId
+        },
+        saveCaseInfo(state, caseInfo) {
+            state.caseInfo = caseInfo;
+        },
+        saveCaseBodyType(state, bodyType) {
+            state.caseInfo.bodyType = bodyType
+        }
     },
     getters: {
         getUserInfo(state) {
@@ -50,6 +62,15 @@ export default createStore({
         },
         getRole(state) {
             return state.role
+        },
+        getCaseId(state) {
+            return state.caseId
+        },
+        getCaseInfo(state) {
+            return state.caseInfo
+        },
+        getCaseBodyType(state) {
+            return state.caseInfo.bodyType
         },
     },
     plugins: [

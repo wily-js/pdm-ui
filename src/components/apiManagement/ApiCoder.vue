@@ -1,7 +1,7 @@
 <template>
     <div style="position: relative">
-        <div style="position: absolute; right: 10px; top: -55px">
-            <a-button @click="fomatter">格式化</a-button>
+        <div style="display: flex;flex-direction: row-reverse;">
+            <el-button @click="fomatter">格式化</el-button>
         </div>
         <codemirror v-model="script" :style="{ height: initHeight, 'font-size': '14px' }" :autofocus="true"
             :indent-with-tab="true" :tab-size="2" :extensions="extensions" :disabled="readOnly" :lang="lang"
@@ -33,10 +33,15 @@ const props = defineProps({
 });
 const extensions = [json()];
 let script = ref("");
+let step = 0
 watch(
     () => props.content,
     () => {
+        step += 1
         script.value = props.content;
+        if (step >= 2) {
+            script.value = JSON.stringify(JSON.parse(script.value), null, "\t");
+        }
     },
     { immediate: true } // immediate选项可以开启首次赋值监听
 );

@@ -1,8 +1,15 @@
 <template>
     <div class="table-form">
         <el-table :data="data">
+            <template #empty>
+                <div style="padding: 30px">
+                    <IconEmpty />
+                    <el-button type="primary" style="display: block; margin: auto" @click="addParam">新增
+                    </el-button>
+                </div>
+            </template>
             <el-table-column type="selection" />
-            <el-table-column label="键">
+            <el-table-column label="键" prop="key">
                 <template #default="scope">
                     <el-input v-model="scope.row.key"></el-input>
                 </template>
@@ -28,9 +35,9 @@
 </template>
   
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { Plus, Minus } from '@element-plus/icons-vue';
-
+import IconEmpty from "../../../../../assets/IconEmpty.vue";
 const props = defineProps({
     // 表格初始化数据
     initData: {
@@ -49,15 +56,18 @@ const props = defineProps({
     },
 });
 const data = ref([]);
-onMounted(() => {
-    data.value = props.initData;
-    console.log(data.value);
-});
-
+watch(
+    () => props.initData,
+    () => {
+        data.value = props.initData;
+    },
+    { immediate: true } // immediate选项可以开启首次赋值监听
+);
 const addParam = () => {
     data.value.push(props.dataStruct);
 };
 const deleteParam = (index) => {
+    console.log("index = ", index);
     data.value.splice(index, 1);
     console.log(index);
 };

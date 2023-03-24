@@ -10,7 +10,7 @@
 </template>
   
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { ref, watch } from "vue";
 
 const props = defineProps({
     // 表格初始化数据
@@ -19,9 +19,13 @@ const props = defineProps({
     },
 });
 const data = ref([]);
-onMounted(() => {
-    data.value = props.initData;
-});
+watch(
+    () => props.initData,
+    () => {
+        data.value = props.initData;
+    },
+    { immediate: true } // immediate选项可以开启首次赋值监听
+);
 
 </script>
   

@@ -97,10 +97,10 @@ const send = () => {
     apiForm.headers = apiHeader.value.getData()
     apiForm.bodyType = apiBody.value.bodyType
     apiForm.body = apiBody.value.getData()
-    axios.post("/api/case/send", apiForm).then(({ data }) => {
+    axios.post("/api/case/edit", apiForm).then(() => {
+        return axios.post("/api/case/send", apiForm)
+    }).then(({ data }) => {
         ElMessage.success({ message: "发送成功", duration: 2000, showClose: true })
-        console.log(data);
-        console.log("header = ", JSON.parse(data.header));
         respData.body = data.body
         respData.header = JSON.parse(data.header)
     }).catch((err) => {
@@ -114,7 +114,7 @@ const save = () => {
     apiForm.headers = apiHeader.value.getData()
     apiForm.bodyType = apiBody.value.bodyType
     apiForm.body = apiBody.value.getData()
-    axios.post("/api/case/edit", apiForm).then(({ data }) => {
+    axios.post("/api/case/edit", apiForm).then(() => {
         ElMessage.success({ message: "保存成功", duration: 2000, showClose: true })
         store.commit("saveCaseBodyType", apiForm.bodyType)
     }).catch((err) => {

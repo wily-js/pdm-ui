@@ -98,16 +98,32 @@ const routes = [
             },
             {
                 path: 'project/setting',
-                name: 'settingProject',
+                name: 'SettingProject',
                 component: () => import('../views/admin/projectManagement/SettingProject.vue')
             },
             {
                 path: 'project/create',
-                name: 'createProject',
+                name: 'CreateProject',
                 component: () => import('../views/admin/projectManagement/CreateProject.vue')
             }
         ]
     },
+    {
+        path: "/audit",
+        name: "Audit",
+        component: () => import('../views/audit/Audit.vue'),
+        children: [{
+            path: "operationLog",
+            name: "OperationLog",
+            component: () => import('../views/audit/operationLog/OperationLog.vue')
+        },
+        {
+            path: "programLog",
+            name: "ProgramLog",
+            component: () => import('../views/audit/programLog/ProgramLog.vue')
+        }
+        ]
+    }
 ]
 
 const router = createRouter({

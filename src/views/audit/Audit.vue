@@ -6,18 +6,19 @@
                 <div style="padding-right: 10px;">项目对接管理系统</div>
                 <el-tag type="info" style="font-size:18px;">{{ version.systemVersion }}</el-tag>
             </div>
-            <el-menu-item index="/admin/project">项目管理</el-menu-item>
-            <el-menu-item index="/admin/userManagement">用户管理</el-menu-item>
+            <el-menu-item index="/audit/operationLog">操作日志</el-menu-item>
+            <el-menu-item index="/audit/programLog">程序日志</el-menu-item>
             <el-link type="info" class="pj-btn" @click="logout">退出登录</el-link>
-            <!-- <el-button class="pj-btn" type="primary" @click="logout">退出登录</el-button> -->
         </el-menu>
     </div>
 
     <router-view />
 </template>
 
+
 <script setup>
-import { onMounted, ref } from 'vue'
+
+import { ref } from 'vue'
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
 import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
@@ -29,6 +30,16 @@ const r = useRoute()
 const activeIndex = ref()
 activeIndex.value = r.fullPath
 
+const version = ref('')
+const init = () => {
+    axios.get("/api/system/version").then((resp) => {
+        version.value = resp.data
+    }).catch((err) => {
+        ElMessage.error({ message: err.response.data, duration: 2000, showClose: true });
+    })
+}
+init()
+
 const logout = () => {
     axios.delete("/api/logout").then(() => {
         router.push({
@@ -39,16 +50,9 @@ const logout = () => {
     })
 
 }
-const version = ref('')
-onMounted(() => {
-    axios.get("/api/system/version").then((resp) => {
-        version.value = resp.data
-    }).catch((err) => {
-        ElMessage.error({ message: err.response.data, duration: 2000, showClose: true });
-    })
-})
 
 </script>
+
 
 <style scoped>
 .title {
@@ -57,6 +61,10 @@ onMounted(() => {
     min-width: 180px;
     padding: 16px 20px 0 50px;
     height: 40px;
+}
+
+.pj-top {
+    display: flex;
 }
 
 .pj-title {

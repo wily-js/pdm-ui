@@ -22,10 +22,10 @@
                 <el-button @click="handleLogin" size="large" style="font-size: 16px; width: 100%;" type="primary">
                     登 录
                 </el-button>
-                <!-- <el-button @click="handleSsoLogin" size="large"
+                <el-button @click="handleSsoLogin" size="large"
                     style="font-size: 16px; width: 100%;margin-top: 30px;margin-left: 0px;" type="primary">
                     单 点 登 录
-                </el-button> -->
+                </el-button>
             </div>
         </div>
     </div>
@@ -75,6 +75,10 @@ const handleLogin = () => {
             router.push({
                 name: "AdminProject"
             })
+        } else if (resp.data.type === "audit") {
+            router.push({
+                name: "OperationLog"
+            })
         }
         resp.data.imgSrc = "/api/avatar?type=user&id=" + resp.data.id
         console.log(resp.data);
@@ -91,7 +95,12 @@ const handleLogin = () => {
 }
 
 const handleSsoLogin = () => {
+    const client_id = 'cff08228-1712-4a15-90a0-b4aeaaa1287e';
+    const authorize_uri = 'http://127.0.0.1:8008/oauth/authorize';
+    const redirect_uri = 'http://127.0.0.1:8200/api/redirect';
+    const date = Date.parse(new Date());
 
+    window.location.href = `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}&state=${date}`;
 }
 
 const handleUsernameBlur = (v) => {

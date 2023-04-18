@@ -25,34 +25,25 @@
                 </template>
             </el-table-column>
             <el-table-column label="操作" prop="action">
-                <el-button :icon="Plus" type="primary" style="margin-right: 10px;" @click="addParam">
-                </el-button>
-                <el-button :icon="Minus" type="danger" @click="deleteParam(index)">
-                </el-button>
+                <template #default="scope">
+                    <el-button :icon="Plus" type="primary" style="margin-right: 10px;" @click="addParam">
+                    </el-button>
+                    <el-button :icon="Minus" type="danger" @click="deleteParam(scope.$index)">
+                    </el-button>
+                </template>
             </el-table-column>
         </el-table>
     </div>
 </template>
   
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
 import { Plus, Minus } from '@element-plus/icons-vue';
 import IconEmpty from "../../../../../assets/IconEmpty.vue";
 const props = defineProps({
     // 表格初始化数据
     initData: {
         type: Array,
-    },
-    // 表格数据结构
-    dataStruct: {
-        type: Object,
-        default: () => {
-            return {
-                key: "",
-                value: "",
-                description: "",
-            };
-        },
     },
 });
 const data = ref([]);
@@ -63,13 +54,18 @@ watch(
     },
     { immediate: true } // immediate选项可以开启首次赋值监听
 );
+// 表格数据结构
+const dataStruct = reactive({
+    key: "",
+    value: "",
+    description: "",
+}
+)
 const addParam = () => {
-    data.value.push(props.dataStruct);
+    data.value.push(dataStruct);
 };
 const deleteParam = (index) => {
-    console.log("index = ", index);
     data.value.splice(index, 1);
-    console.log(index);
 };
 </script>
   

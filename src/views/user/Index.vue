@@ -7,7 +7,7 @@
                 <el-tag type="info" style="font-size:18px;margin-top: 3px;">{{ version.systemVersion }}</el-tag>
             </div>
             <el-menu-item index="/index/projectList">项目列表</el-menu-item>
-            <el-menu-item index="/index/technicalProposal">技术方案</el-menu-item>
+            <!-- <el-menu-item index="/index/technicalProposal">技术方案</el-menu-item> -->
             <div class="i-avatar" @click="skipUser">
                 <div style="width:40px;height: 40px; border-radius: 25px; overflow: hidden;">
                     <el-image :src="userInfo.imgSrc" style="width:40px;height: 40px;">

@@ -154,6 +154,7 @@ watch(
     () => store.getters.getCaseId,
     () => {
         getInfo(store.getters.getCaseId)
+        respData.body = ""
     },
     { immediate: true } // immediate选项可以开启首次赋值监听
 )

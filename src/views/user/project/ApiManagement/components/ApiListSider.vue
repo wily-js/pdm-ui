@@ -6,8 +6,9 @@
             </el-button>
             <el-input style="margin-right: 5px;" placeholder="输入名称或路径查询"></el-input>
         </div>
-        <el-tree ref="tree" :expand-on-click-node="false" :data="treeData" :props="defaultProps" :load="loadNode" lazy
-            @node-click="getToPath" highlight-current>
+        <el-tree ref="tree" :default-expanded-keys="expandList" node-key="id" :expand-on-click-node="false" :data="treeData"
+            :props="defaultProps" :load="loadNode" lazy @node-click="getToPath" @node-expand="handleNodeExpand"
+            @node-collapse="handleNodeCollapse" highlight-current>
             <template #default="{ data }">
                 <div class="node-css">
                     <!-- <img :src="folderIcon" style="height:20px;" /> -->
@@ -117,7 +118,7 @@ const form = reactive({
 // 取消
 const cancel = () => {
     form.name = ""
-    form.type = 0
+    form.type = "categorize"
     form.id = 0
     form.title = "新建接口集合"
     ruleForm.value.resetFields()
@@ -127,7 +128,7 @@ const cancel = () => {
 
 // 树形结构数据
 const treeData = ref([])
-
+const tree = ref(null)
 const defaultProps = {
     children: 'children',
     label: 'name',
@@ -166,6 +167,7 @@ const getToPath = (data, me, children) => {
     } else {
         emits("showDefault", true);
     }
+    // findExpandedNode(treeData.value)
     console.log(data);
     console.log(me);
     console.log(children);
@@ -188,9 +190,65 @@ const getTree = () => {
     })
 }
 
+// 默认展开的节点
+const expandList = ref([])
+
+const handleNodeExpand = (data) => {
+    // 保存当前展开的节点
+    let flag = false
+    expandList.value.some(item => {
+        if (item === data.id) { // 判断当前节点是否存在， 存在不做处理
+            flag = true
+            return true
+        }
+    })
+    if (!flag) { // 不存在则存到数组里
+        expandList.value.push(data.id)
+    }
+}
+
+const handleNodeCollapse = (data) => {
+    // 删除当前关闭的节点
+    expandList.value.some((item, i) => {
+        if (item === data.id) {
+            expandList.value.splice(i, 1)
+        }
+    })
+    removeChildrenIds(data) // 这里主要针对多级树状结构，当关闭父节点时，递归删除父节点下的所有子节点
+}
+
+const removeChildrenIds = (data) => {
+    if (data.children) {
+        data.children.forEach(e => {
+            const index = expandList.value.indexOf(e.id)
+            if (index > 0) {
+                expandList.value.splice(index, 1)
+            }
+            removeChildrenIds(e)
+        })
+    }
+}
+
+
+
+
+// 寻找所有展开的节点id
+const findExpandedNode = (data) => {
+    expandList.value = []
+    data.forEach(e => {
+        if (tree.value.getNode(e).expanded === true) {
+            console.log("eee = ", e);
+            expandList.value.push(e)
+            // if (e.children && e.children.length > 0) {
+            //     let newList = findExpandedNode(e)
+            //     expandList.value = list.concat(newList)
+            // }
+        }
+    })
+}
+
+
 const append = (data, node) => {
-    console.log("currentNode = ", node);
-    console.log("data = ", data);
     if (!node.children) {
         node.children = []
     }
@@ -215,9 +273,10 @@ const create = (type) => {
                     } else {
                         append(resp.data, currentNode.value)
                     }
-                    cancel()
                 }).catch((err) => {
                     ElMessage.error({ message: err.response.data, duration: 2000, showClose: true });
+                }).finally(() => {
+                    cancel()
                 })
             } else {
                 let data = {
@@ -233,7 +292,10 @@ const create = (type) => {
                     }
                     cancel()
                 }).catch((err) => {
+                    console.log(err);
                     ElMessage.error({ message: err.response.data, duration: 2000, showClose: true });
+                }).finally(() => {
+                    cancel()
                 })
             }
         }

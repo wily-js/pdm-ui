@@ -37,11 +37,22 @@ let step = 0
 watch(
     () => props.content,
     () => {
+        console.log("content = ", props.content);
+        script.value = ""
         step += 1
         script.value = props.content;
-        if (step >= 2) {
-            script.value = JSON.stringify(JSON.parse(script.value), null, "\t");
+
+        if (step >= 2 && script.value) {
+
+            try {
+                script.value = JSON.stringify(JSON.parse(script.value), null, "\t");
+            }
+            catch {
+                script.value = props.content;
+            }
         }
+
+
     },
     { immediate: true } // immediate选项可以开启首次赋值监听
 );

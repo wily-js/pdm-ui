@@ -64,21 +64,20 @@ defineExpose({
 
 // 监听请求体数据变化
 watch(
-    () => store.getters.getCaseInfo.body,
+    () => store.getters.getCaseInfo,
     () => {
+        bodyJson.value = ""
+        bodyFormData.value = []
+        bodyType.value = store.getters.getCaseInfo.bodyType
         console.log("body ", store.getters.getCaseInfo.body);
-        console.log("bodyType = ", bodyType.value);
+        console.log("bodyType = ", store.getters.getCaseInfo.bodyType);
         if (bodyType.value === 1) {//  json格式
             if (store.getters.getCaseInfo.body) {
                 bodyJson.value = store.getters.getCaseInfo.body
-            } else {
-                bodyJson.value = ""
             }
         } else if (bodyType.value === 2) {// form-data格式
             if (store.getters.getCaseInfo.body) {
                 bodyFormData.value = JSON.parse(store.getters.getCaseInfo.body)
-            } else {
-                bodyFormData.value = []
             }
         }
 

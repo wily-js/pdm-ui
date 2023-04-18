@@ -55,6 +55,7 @@
 import axios from 'axios';
 import DOMPurify from 'dompurify';
 import { ElMessage, ElMessageBox } from 'element-plus';
+import hljs from 'highlight.js';
 import { marked } from 'marked';
 import { onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
@@ -227,6 +228,7 @@ onMounted(() => {
 .rv-link {
     justify-content: left;
     min-width: 20%;
+    margin-right: 10px;
 }
 
 .rv-title-author {

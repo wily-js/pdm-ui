@@ -17,6 +17,7 @@ export default createStore({
         role: "", // 用户在项目中的角色
         caseId: "", // 接口用例ID
         caseInfo: {},
+        layout: "icon",//基础文档区默认文件展示
     },
     mutations: {
         saveUserInfo(state, userInfo) {
@@ -45,6 +46,9 @@ export default createStore({
         },
         saveCaseBodyType(state, bodyType) {
             state.caseInfo.bodyType = bodyType
+        },
+        saveLayout(state, layout) {
+            state.layout = layout
         }
     },
     getters: {
@@ -72,6 +76,9 @@ export default createStore({
         getCaseBodyType(state) {
             return state.caseInfo.bodyType
         },
+        getLayout(state) {
+            return state.layout
+        }
     },
     plugins: [
         createPersistedState({

@@ -38,6 +38,11 @@ const routes = [
                 component: () => import('../views/user/technicalProposal/TechnicalProposal.vue'),
             },
             {
+                path: 'baseDocumentArea/:chapters*',
+                name: 'BaseDocumentArea',
+                component: () => import('../views/user/baseDocumentArea/BaseDocumentArea.vue'),
+            },
+            {
                 path: 'userInfo',
                 name: 'UserInfo',
                 component: () => import('../views/user/userInfo/UserInfo.vue')

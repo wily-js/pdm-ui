@@ -86,7 +86,7 @@ const routes = [
             },
             {
                 path: 'document',
-                name: 'document',
+                name: 'Document',
                 component: () => import('../views/user/project/document/Document.vue'),
                 children: [
                     {

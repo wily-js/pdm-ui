@@ -123,7 +123,7 @@ const enterProject = (name, projectId, managerId) => {
         store.commit("saveManagerId", managerId)
         store.commit("saveRole", resp.data.role)
         router.push({
-            name: "DockingDocuments"
+            name: "Document"
         });
     }).catch((err) => {
         ElMessage.error({ message: err.response.data, duration: 2000, showClose: true })

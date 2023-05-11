@@ -588,10 +588,10 @@ const uploadFiles = (form) => {
     }).then((resp) => {
         ElMessage.success({ message: "上传成功", duration: 2000, showClose: true })
         Eloading.close()
-        init()
+        list(path.value)
     }).catch((err) => {
         Eloading.close()
-        init()
+        list(path.value)
         if (!err.response) {
             console.log("上传失败：", err)
             ElMessage.error({ message: "文件类型错误，上传失败！", duration: 2000, showClose: true })

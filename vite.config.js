@@ -19,7 +19,7 @@ export default defineConfig({
     open: true,       // 服务启动后自动打开浏览器
     proxy: {          // 代理
       '/api': {
-        target: 'http://127.0.0.1:8200',
+        target: 'http://127.0.0.1:80',
         // changeOrigin: true,
         // rewrite: (path) => path.replace(/^\/api/, '')     // 注意代理地址的重写
       },

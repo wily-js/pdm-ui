@@ -8,6 +8,7 @@
             </div>
             <el-menu-item index="/admin/project">项目管理</el-menu-item>
             <el-menu-item index="/admin/userManagement">用户管理</el-menu-item>
+            <el-menu-item index="/admin/rootCerts">根证书管理</el-menu-item>
             <el-link type="info" class="pj-btn" @click="logout">退出登录</el-link>
             <!-- <el-button class="pj-btn" type="primary" @click="logout">退出登录</el-button> -->
         </el-menu>

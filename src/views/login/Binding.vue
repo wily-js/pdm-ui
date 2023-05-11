@@ -1,4 +1,8 @@
 <template>
+    <div>
+        <SKFDriverDownload v-if="dialogSKFDriver" v-model="dialogSKFDriver"></SKFDriverDownload>
+    </div>
+
     <div class="wrapper">
         <div class="container" v-loading="loadding" element-loading-background="rgba(255, 255, 255, 0.8)"
             element-loading-text="数据加载中...">
@@ -17,7 +21,7 @@
                     <el-option v-for="keyItem in keyList" :key="keyItem.name" :label="keyItem.name" :value="keyItem.name" />
                 </el-select>
                 <el-button v-if="driver == false" type="info" size="large" style="margin-left : 25px ; "
-                    @click="openDriver">
+                    @click="getVersion">
                     刷新
                 </el-button>
                 <el-button v-else type="info" size="large" style="margin-left : 25px ; " @click="getEnumList">
@@ -37,9 +41,7 @@
                     绑定
                 </el-button>
             </div>
-            <a href="/ui/skfdriver.msi"><el-button link class="link-button">
-                    下载驱动程序
-                </el-button></a>
+            <el-button link class="link-button" @click="dialogSKFDriver = true;">下载驱动程序</el-button>
         </div>
 
     </div>
@@ -53,13 +55,14 @@ import { useRouter } from 'vue-router';
 import GInput from "../../components/GInput.vue";
 import customProtocolCheck from "custom-protocol-check";
 import { useStore } from "vuex";
+import SKFDriverDownload from "../../components/skfdriver/SKFDriverDownload.vue";
 
 const loadding = ref(false)
 const username = ref('');
 const usbKey = ref('');
 const pin = ref('');
 const router = useRouter();
-
+const dialogSKFDriver = ref(false)
 const pErr = reactive({
     username: false,
     pin: false,
@@ -81,15 +84,73 @@ const handleBinding = () => {
         ElMessage.error("pin为空");
         return
     }
-    router.push({
-        name: "AdminLogin"
+
+
+    loadding.value = true
+    axios.get("/api/random").then((resp) => {
+        // console.log(resp.data)
+        var tbs = {
+            Rb: resp.data,
+            text3: username.value,
+            pin: pin.value,
+            ukeyName: usbKey.value,
+            B: "note",
+            needCert: true,
+        }
+        return axios.post("http://127.0.0.1:28081/skf/ukey/eccEntityAuth", tbs)
+    }).then((resp) => {
+        return axios.post("/api/certBinding", resp.data)
+    }).then(() => {
+        ElMessage.success({ message: "设备绑定成功", duration: 2000, showClose: true })
+        router.push({
+            name: "AdminLogin"
+        })
+    }).catch((err) => {
+        ElMessage.error({ message: err.response.data, duration: 2000, showClose: true });
+    }).finally(() => {
+        loadding.value = false
     })
 }
-const driver = ref(false)
 
-const openDriver = () => {
-    console.log("open");
+
+
+const getEnumList = () => {
+    loadding.value = true
+    axios.get("http://127.0.0.1:28081/skf/ukey/enum").then((resp) => {
+        keyList.value = resp.data
+        if (keyList.value.length >= 1 && usbKey.value == "") {
+            usbKey.value = keyList.value[0].name
+        } else if (keyList.value.length >= 1 && usbKey.value != "") {
+            let keyFlag = false
+            for (let i = 0; i < keyList.value.length; i++) {
+                if (keyList.value[i].name == usbKey.value) {
+                    keyFlag = true
+                    break
+                }
+            }
+            if (!keyFlag) {
+                usbKey.value = keyList.value[0].name
+            }
+        } else if (keyList.value.length == 0) {
+            usbKey.value = ""
+        }
+    }).catch((err) => {
+        ElMessage.error({ message: err.response.data, duration: 2000, showClose: true });
+    }).finally(() => {
+        loadding.value = false
+    })
 }
+
+const driver = ref(false)
+// 检测驱动程序是否已打开
+const getVersion = () => {
+    axios.get("http://127.0.0.1:28081/skf/ukey/version", { timeout: 300 }).then((resp) => {
+        driver.value = true
+    }).catch(() => {
+        // 调用失败捕获异常
+    })
+}
+
 const handleUsernameBlur = (v) => {
     if (v != "") {
         pErr.username = false;
@@ -115,7 +176,11 @@ const handlePinBlur = (v) => {
 }
 
 onMounted(() => {
+    getVersion()
 })
+
+
+
 </script>
 
 

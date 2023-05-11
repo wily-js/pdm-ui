@@ -84,6 +84,25 @@ const routes = [
                 name: 'UserInfoCopy',
                 component: () => import('../views/user/userInfo/UserInfo.vue')
             },
+            {
+                path: 'document',
+                name: 'document',
+                component: () => import('../views/user/project/document/Document.vue'),
+                children: [
+                    {
+                        path: ':id?.md',
+                        name: 'markdown',
+                        props: true,
+                        component: () => import('../views/user/project/document/MarkdownFile.vue')
+                    },
+                    {
+                        path: ':id?-:type?',
+                        name: 'downloadFile',
+                        props: true,
+                        component: () => import('../views/user/project/document/DownloadFile.vue')
+                    }
+                ]
+            }
         ]
     },
     {
@@ -110,6 +129,11 @@ const routes = [
                 path: 'project/create',
                 name: 'CreateProject',
                 component: () => import('../views/admin/projectManagement/CreateProject.vue')
+            },
+            {
+                path: 'rootCerts',
+                name: 'rootCerts',
+                component: () => import('../views/admin/rootCerts/certsManagement.vue'),
             }
         ]
     },

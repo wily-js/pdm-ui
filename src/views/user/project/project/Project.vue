@@ -6,11 +6,12 @@
                     style="width: 25px; height : 25px ;padding-right:10px;margin-left: 10px;">
                 <div style="padding-right: 10px;">{{ name }}</div>
             </el-button>
-            <el-menu-item index="/project/dockingDocuments">对接文档</el-menu-item>
+            <!-- <el-menu-item index="/project/dockingDocuments">对接文档</el-menu-item> -->
+            <el-menu-item index="/project/document">对接文档</el-menu-item>
             <el-menu-item index="/project/apiManagement">接口管理</el-menu-item>
             <el-menu-item index="/project/member">授权成员</el-menu-item>
             <div class="pj-btn">
-                <!-- <el-button type="primary" @click="back" class="pj-item">用户主页</el-button> -->
+                <el-button type="primary" @click="back" class="pj-item">项目列表</el-button>
                 <div class="pj-avatar" @click="skipUser">
                     <div style="width:40px;height: 40px; border-radius: 25px; overflow: hidden;">
                         <el-image :src="userInfo.imgSrc" style="width:40px;height: 40px;">
@@ -113,6 +114,7 @@ onMounted(() => {
 }
 
 .pj-item {
-    margin-top: 5px
+    margin-top: 20px;
+    margin-right: 5px;
 }
 </style>

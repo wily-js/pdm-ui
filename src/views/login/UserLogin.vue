@@ -71,14 +71,6 @@ const handleLogin = () => {
             router.push({
                 name: "ProjectList"
             })
-        } else if (resp.data.type === "admin") {
-            router.push({
-                name: "AdminProject"
-            })
-        } else if (resp.data.type === "audit") {
-            router.push({
-                name: "OperationLog"
-            })
         }
         resp.data.imgSrc = "/api/avatar?type=user&id=" + resp.data.id
         console.log(resp.data);
@@ -95,9 +87,9 @@ const handleLogin = () => {
 }
 
 const handleSsoLogin = () => {
-    const client_id = 'cff08228-1712-4a15-90a0-b4aeaaa1287e';
-    const authorize_uri = 'http://127.0.0.1:8008/oauth/authorize';
-    const redirect_uri = 'http://127.0.0.1:8200/api/redirect';
+    const client_id = '14b40ad8-30bc-4ee1-b381-8a43cfcf185c';
+    const authorize_uri = 'http://nantemen.hzauth.com/oauth/authorize';
+    const redirect_uri = 'http://pdm.hzmx.com/api/redirect';
     const date = Date.parse(new Date());
 
     window.location.href = `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}&state=${date}`;

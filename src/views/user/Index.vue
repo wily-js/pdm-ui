@@ -4,7 +4,7 @@
             <div class="title">
                 <img src="../../../public/pdm.svg" style="width: 25px; height : 25px ;padding-right:10px;margin-top: 3px;">
                 <div style="padding-right: 10px;padding-bottom: 1px;">项目对接管理系统</div>
-                <el-tag type="info" style="font-size:18px;margin-top: 3px;">{{ version.systemVersion }}</el-tag>
+                <el-tag type="info" style="font-size:18px;margin-top: 3px;">V{{ version.systemVersion }}</el-tag>
             </div>
             <el-menu-item index="/index/projectList">项目列表</el-menu-item>
             <el-menu-item index="/index/technicalProposal">技术方案</el-menu-item>

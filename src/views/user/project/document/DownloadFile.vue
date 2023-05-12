@@ -9,10 +9,10 @@
             </div>
             <div class="df-btn">
                 <el-button type="primary" class="df-upload" @click="dialogVisible = true" :disabled="btnStatus"
-                    v-if="role == 2 || role == 4 || role == 5">上传
+                    v-if="role !== 1">上传
                 </el-button>
                 <el-button type="success" class="df-upload" @click="download" :disabled="btnStatus"
-                    v-if="docInfo.filename != '' && (role == 2 || role == 4 || role == 5)">下载
+                    v-if="docInfo.filename != '' && role !== 1">下载
                 </el-button>
             </div>
         </div>

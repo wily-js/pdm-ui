@@ -6,11 +6,13 @@
             <div class="md-update-time">
                 更新时间：{{ docInfo.updatedAt }}
             </div>
-            <el-button type="success" style="margin-top: 16px;margin-left: 5px;" @click="exportDoc"
-                :disabled="exportStatus">导出</el-button>
+            <el-button type="success" style="margin-top: 16px;margin-left: 5px;" @click="exportDoc" :disabled="exportStatus"
+                v-if="role !== 1">导出</el-button>
+            <el-button type="warning" style="margin-top: 16px;margin-left: 5px;" @click="generate"
+                :disabled="generateStatus" v-if="role !== 1">生成技术方案</el-button>
             <div class="md-btn-group" v-if="editState == false">
                 <div class="md-btn">
-                    <el-button type="primary" style="margin-top:5px;" @click="changeToEdit">编辑</el-button>
+                    <el-button type="primary" style="margin-top:5px;" @click="changeToEdit" v-if="role !== 1">编辑</el-button>
                 </div>
             </div>
             <div class="md-btn-group" v-else>
@@ -51,7 +53,7 @@ const router = useRoute()
 const loading = ref(false)
 const role = store.getters.getRole
 const exportStatus = ref(false)
-
+const generateStatus = ref(false)
 // 编辑模式
 const editState = ref(false)
 // markdown状态  1 - 编辑模式 2 - 预览模式 3 - 混合模式 4 - 代码模式
@@ -182,6 +184,17 @@ const exportDoc = () => {
     setTimeout(() => {
         exportStatus.value = false
     }, 3 * 1000);
+}
+
+// 生成技术方案
+const generate = () => {
+    generateStatus.value = true
+    axios.get(`/api/doc/generate?docId=${docInfo.value.id}`).then(() => {
+        ElMessage.success({ message: "技术方案生成成功", duration: 2000, showClose: true })
+        generateStatus.value = false
+    }).catch((err) => {
+        ElMessage.error({ message: err.response.data, duration: 1000, showClose: true })
+    })
 }
 
 // 保存项目阶段

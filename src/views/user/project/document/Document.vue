@@ -80,7 +80,7 @@
 </template>
 
 <script setup>
-import { Search } from '@element-plus/icons-vue';
+import { Plus, Search } from '@element-plus/icons-vue';
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
 import { ref, reactive, watch, onMounted } from 'vue'
@@ -265,7 +265,7 @@ onMounted(() => {
 .doc-body {
     /* display: flex; */
     min-width: 1040px;
-    min-height: 99.9vh;
+    min-height: 90vh;
 }
 
 .doc-aside {
@@ -293,23 +293,4 @@ onMounted(() => {
     height: 56px;
     justify-content: left;
 } */
-.content_bound {
-    padding-right: 0;
-    padding-left: 0;
-}
-
-
-@media screen and (min-width: 992px) {
-    .content_bound {
-        padding-right: 30px !important;
-        padding-left: 30px !important;
-    }
-}
-
-@media screen and (min-width: 1200px) {
-    .content_bound {
-        padding-right: 180px !important;
-        padding-left: 180px !important;
-    }
-}
 </style>

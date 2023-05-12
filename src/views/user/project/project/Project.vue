@@ -10,6 +10,8 @@
             <el-menu-item index="/project/document">对接文档</el-menu-item>
             <el-menu-item index="/project/apiManagement">接口管理</el-menu-item>
             <el-menu-item index="/project/member">授权成员</el-menu-item>
+            <!-- <el-menu-item index="/project/technicalProposal">技术方案管理</el-menu-item> -->
+            <!-- <el-menu-item index="/project/baseDocumentArea">基础文档管理</el-menu-item> -->
             <div class="pj-btn">
                 <el-button type="primary" @click="back" class="pj-item">项目列表</el-button>
                 <div class="pj-avatar" @click="skipUser">
@@ -22,7 +24,7 @@
                     </div>
                     <el-button link class="pj-name">{{ userInfo.name }}</el-button>
                 </div>
-                <el-link type="info" style=" margin-top: 8px;margin-right: 10px;" @click="logout">退出登录</el-link>
+                <el-link type="info" style=" margin-right: 10px;" @click="logout">退出登录</el-link>
             </div>
 
         </el-menu>
@@ -90,6 +92,7 @@ onMounted(() => {
 <style scoped>
 .pj-top {
     display: flex;
+    height: 58px;
 }
 
 
@@ -108,13 +111,13 @@ onMounted(() => {
 }
 
 .pj-avatar {
-    margin: 10px 15px 0 auto;
+    margin: 2px 15px 0 auto;
     /* margin: 0 10px; */
     display: flex;
 }
 
 .pj-item {
-    margin-top: 20px;
+    margin-top: 10px;
     margin-right: 5px;
 }
 </style>
